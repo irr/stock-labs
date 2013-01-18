@@ -59,10 +59,9 @@ def main():
 
         application = tornado.web.Application([
             (r'/', IndexHandler),
-            (r'/quotes', QuotesHandler)],
+            (r'/stock', StockHandler)],
             template_path=path, 
-            static_path=os.path.join(os.path.dirname(__file__), "static"), 
-            debug=True)
+            static_path=os.path.join(os.path.dirname(__file__), "static"))
 
         application.db = asyncmongo.Client(
             pool_id = str(uuid.uuid1()), 

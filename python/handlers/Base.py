@@ -15,7 +15,7 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('index.html')
 
-class QuotesHandler(BaseHandler):
+class StockHandler(BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         symbol = self.get_argument("symbol", None)

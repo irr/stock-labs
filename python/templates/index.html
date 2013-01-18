@@ -13,7 +13,7 @@
 <script type="text/javascript">
 
 function plot(symbol, line) {
-    $.getJSON('/quotes?symbol=$SYM&callback=?'.replace("$SYM", symbol), function(data) {
+    $.getJSON('/stock?symbol=$SYM&callback=?'.replace("$SYM", symbol), function(data) {
         var ohlc = [ ],
             volume = [ ],
             spline = [ ],
@@ -145,7 +145,7 @@ $(document).ajaxComplete(function() {
 });
 
 $(function() {
-    $.getJSON('/quotes?callback=?', function(data) {    
+    $.getJSON('/stock?callback=?', function(data) {    
         var symbol = $.urlParam('symbol');
         var length = data[0].length;
         for (i = 1; i < length; i++) {      
