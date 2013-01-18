@@ -31,8 +31,6 @@ class StockHandler(BaseHandler):
         self.write(''.join([self.get_argument("callback"), 
                    "([", json.dumps(response["values"], default=json_util.default), "]);"]))
         self.finish()
-        # json_string  = json.dumps(obj, default=json_util.default)
-        # mongo_object = json.loads(js, object_hook=json_util.object_hook)
 
     def _on_response_data(self, response, error):
         if error or not isinstance(response, types.ListType):
