@@ -1,10 +1,12 @@
+from bson import json_util
 from datetime import datetime
 from json import dumps
-from types import ListType
+from logging import getLogger as log
 
-from tornado.web import asynchronous, RequestHandler, HTTPError
 from tornado.template import Loader
-from bson import json_util
+from tornado.web import asynchronous, RequestHandler, HTTPError
+
+from types import ListType
 
 class BaseHandler(RequestHandler):
     @property
