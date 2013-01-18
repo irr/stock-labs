@@ -4,11 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Stock-Labs</title>
 
-<link type="text/css" rel="stylesheet" href="/css/index.css">
+<link type="text/css" rel="stylesheet" href="{{ static_url("css/index.css") }}">
 
-<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
-<script type="text/javascript" src="js/highstock.js"></script>
-<script type="text/javascript" src="js/modules/exporting.js"></script>
+<script type="text/javascript" src="{{ static_url("js/jquery-1.9.0.min.js") }}"></script>
+<script type="text/javascript" src="{{ static_url("js/highstock.js") }}"></script>
+<script type="text/javascript" src="{{ static_url("js/modules/exporting.js") }}"></script>
 
 <script type="text/javascript">
 
@@ -58,7 +58,7 @@ function plot(symbol, line) {
                     zoomType: "x"
                 },
                 rangeSelector: {
-                    selected: 1
+                    selected: 5
                 },
                 title: {
                     text: symbol + ' Data Series'
@@ -169,7 +169,7 @@ $(function() {
 </script>
 </head>
 
-<div id="spinner"><img id="img-spinner" src="images/spinner.gif" alt="Loading symbols..."/></div>
+<div id="spinner"><img id="img-spinner" src="{{ static_url("images/spinner.gif") }}" alt="Loading symbols..."/></div>
 <div id="controls">
     <p>Symbols: <select id="symbols"/>
     <input id="spline" value="true" type="checkbox">spline
