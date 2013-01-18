@@ -5,7 +5,6 @@ from bson import json_util
 import tornado.web
 from tornado.template import Loader
 
-
 class BaseHandler(tornado.web.RequestHandler):
     @property
     def db(self):
@@ -43,7 +42,7 @@ class QuotesHandler(BaseHandler):
         for t in response:
             date = map(int, t["D"].split("-"))
             data = [int(datetime.datetime(date[0],date[1],date[2]).strftime('%s')) * 1000]
-            data.extend([int(float(t[x])) for x in ["O", "H", "L", "C", "V"]])
+            data.extend([float(t[x]) for x in ["O", "H", "L", "C", "V"]])
             lst.append(data)  
         self.write("%s(%s);" % 
             (self.get_argument("callback"), json.dumps(lst, default=json_util.default)))
