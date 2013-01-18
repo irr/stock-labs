@@ -6,20 +6,20 @@
 # http localhost:8888/static/index.html
 # http localhost:8888/query
 
-import tornado.httpserver
-import tornado.ioloop
-import tornado.options
-import tornado.web
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+from tornado.options import define, options, parse_command_line, parse_config_file
+from tornado.web import Application
 
-from tornado import gen
-from tornado.options import define, options
-
-import os, sys, signal, time, logging, traceback, uuid
-
-import asyncmongo
+from asyncmongo import Client
+from logging import getLogger, DEBUG
+from os.path import dirname, join
+from signal import signal, SIGTERM
+from sys import exit
+from traceback import format_exc
+from uuid import uuid1
 
 from handlers import *
-
 
 define("config", help="config file", default=None, type=str)
 define("address", help="binding host", default="localhost", type=str)
@@ -30,62 +30,58 @@ define("db_name", help="database name", default="stock", type=str)
 define("db_host", help="database host", default="localhost", type=str)
 define("db_port", help="database port", default=27017, type=int)
 
-
 def shutdown():
-    io_loop = tornado.ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     if io_loop.running():
         io_loop.stop()
-    logging.getLogger().info("server stopped")
-
+    getLogger().info("server stopped")
 
 def on_signal(sig, frame):
     if http_server != None:
-        logging.getLogger().info("shutting down server...")
+        getLogger().info("shutting down server...")
         http_server.stop()
-    tornado.ioloop.IOLoop.instance().add_callback(shutdown)
-
+    IOLoop.instance().add_callback(shutdown)
 
 def main():
     global http_server
 
     try:
-        signal.signal(signal.SIGTERM, on_signal)
+        signal(SIGTERM, on_signal)
         
-        tornado.options.parse_command_line()
+        parse_command_line()
         if options.config != None:
-            tornado.options.parse_config_file(options.config)
+            parse_config_file(options.config)
 
-        path = os.path.join(os.path.dirname(__file__), "templates")
+        path = join(dirname(__file__), "templates")
 
-        application = tornado.web.Application([
+        application = Application([
             (r'/', IndexHandler),
             (r'/stock', StockHandler)],
             template_path=path, 
-            static_path=os.path.join(os.path.dirname(__file__), "static"))
+            static_path=join(dirname(__file__), "static"))
 
-        application.db = asyncmongo.Client(
-            pool_id = str(uuid.uuid1()), 
+        application.db = Client(
+            pool_id = str(uuid1()), 
             host = options.db_host, 
             port = options.db_port, 
             dbname = options.db_name)
 
-        http_server = tornado.httpserver.HTTPServer(application)
+        http_server = HTTPServer(application)
         http_server.listen(options.port, options.address)
-        logging.getLogger().info("server listening on port %s:%d" % 
+        getLogger().info("server listening on port %s:%d" % 
             (options.address, options.port))
-        if logging.getLogger().isEnabledFor(logging.DEBUG):
-            logging.getLogger().debug("autoreload enabled")
+        if getLogger().isEnabledFor(DEBUG):
+            getLogger().debug("autoreload enabled")
             tornado.autoreload.start()        
-        tornado.ioloop.IOLoop.instance().start()
+        IOLoop.instance().start()
 
     except KeyboardInterrupt:
-        logging.getLogger().info("exiting...")
+        getLogger().info("exiting...")
 
     except BaseException as ex:
-        logging.getLogger().error("exiting due: [%s][%s]" % 
+        getLogger().error("exiting due: [%s][%s]" % 
             (str(ex), str(traceback.format_exc().splitlines())))
-        sys.exit(1)
-
+        exit(1)
 
 if __name__ == '__main__':
     main()
