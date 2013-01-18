@@ -28,8 +28,8 @@ class QuotesHandler(BaseHandler):
         if error:
             raise tornado.web.HTTPError(500)
         self.set_header("Content-Type", "application/json; charset=UTF-8")
-        self.write("%s([%s]);" % 
-            (self.get_argument("callback"), json.dumps(response["values"], default=json_util.default)))
+        self.write(''.join([self.get_argument("callback"), 
+                   "([", json.dumps(response["values"], default=json_util.default), "]);"]))
         self.finish()
         # json_string  = json.dumps(obj, default=json_util.default)
         # mongo_object = json.loads(js, object_hook=json_util.object_hook)
@@ -44,6 +44,6 @@ class QuotesHandler(BaseHandler):
             data = [int(datetime.datetime(date[0],date[1],date[2]).strftime('%s')) * 1000]
             data.extend([float(t[x]) for x in ["O", "H", "L", "C", "V"]])
             lst.append(data)  
-        self.write("%s(%s);" % 
-            (self.get_argument("callback"), json.dumps(lst, default=json_util.default)))
+        self.write(''.join([self.get_argument("callback"),
+                   "(", json.dumps(lst, default=json_util.default), ");"]))
         self.finish()
