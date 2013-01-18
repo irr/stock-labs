@@ -1,0 +1,14 @@
+/etc/logrotate.d/nginx
+
+/data/Lua/openresty/nginx/logs/access_log {
+    rotate 7
+    size 5k
+    dateext
+    dateformat -%Y-%m-%d
+    missingok
+    compress
+    sharedscripts
+    postrotate
+        test -r /data/Lua/openresty/nginx/logs/nginx.pid && kill -USR1 `cat /data/Lua/openresty/nginx/logs/nginx.pid`
+    endscript
+}
