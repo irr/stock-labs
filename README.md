@@ -1,7 +1,7 @@
 stock-labs
 -----------
 
-**stock-labs**  is a swing trade system built on *[Stackless]* *Python*, *[Tornado]*, *[Highstock]* with *[JQuery]* and *[MongoDB]*
+**stock-labs**  is a stock visualization tool built on *[Stackless]* *Python*, *[Tornado]*, *[Highstock]* with *[JQuery]* and *[MongoDB]*
 
 ```shell
 virtualenv --no-site-packages --distribute -p /data/Python/stackless/bin/python dev
