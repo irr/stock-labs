@@ -1,7 +1,7 @@
 stock
 -----------
 
-**stock**  is a swing trade visualization tool built on *[Lua]*, *[OpenResty]*, *[Highstock]* with *[JQuery]* and *[MySQL]*
+**stock**  is a stock visualization tool built on *[Lua]*, *[OpenResty]*, *[Highstock]* with *[JQuery]* and *[MySQL]*
 
 ```shell
 yum install readline-devel pcre-devel openssl-devel libdrizzle-devel
