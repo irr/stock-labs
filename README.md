@@ -1,12 +1,12 @@
 stock-labs
 -----------
 
-**stock-labs**  is a stock visualization tool built on *[Stackless]* *Python*, *[Tornado]*, *[Highstock]* with *[JQuery]* and *[MongoDB]*
+**stock-labs**  is a stock visualization tool built on *[Tornado]*, *[Highstock]* with *[JQuery]* and *[MongoDB]*
 
 ```shell
-virtualenv --no-site-packages --distribute -p /data/Python/stackless/bin/python dev
+virtualenv --no-site-packages --distribute dev
 source $HOME/dev/bin/activate
-pip install -v tornado asyncmongo supervisor httpie
+pip install -v tornado asyncmongo supervisor httpie greenlet
 ```
 
 Copyright and License
@@ -25,7 +25,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[Stackless]: http://www.stackless.com/
 [Tornado]: http://www.tornadoweb.org/
 [Highstock]: http://www.highcharts.com/products/highstock
 [JQuery]: http://jquery.com/
