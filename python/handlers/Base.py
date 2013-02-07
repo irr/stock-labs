@@ -6,8 +6,6 @@ from logging import getLogger as log
 from tornado.template import Loader
 from tornado.web import asynchronous, RequestHandler, HTTPError
 
-from types import ListType
-
 class BaseHandler(RequestHandler):
     @property
     def db(self):
@@ -41,7 +39,7 @@ class StockHandler(BaseHandler):
         self.set_header("Content-Type", "application/json; charset=UTF-8")
         lst = [[self.get_argument("symbol")]]
         for t in response:
-            date = map(int, t["D"].split("-"))
+            date = [int(i) for i in  t["D"].split("-")]
             data = [int(datetime(date[0],date[1],date[2]).strftime('%s')) * 1000]
             data.extend([float(t[x]) for x in ["O", "H", "L", "C", "V"]])
             lst.append(data)  

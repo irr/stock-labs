@@ -8,8 +8,6 @@ from tornado.ioloop import IOLoop
 from tornado.template import Loader
 from tornado.web import asynchronous, RequestHandler, HTTPError
 
-from types import ListType
-
 class IndexHandler(RequestHandler):
     @asynchronous
     def get(self):
@@ -24,7 +22,7 @@ class StockHandler(RequestHandler):
     def distinct(self, args):
         options = self.application.options
         connection = MongoClient(options.db_host, options.db_port, 
-            max_pool_size = 0, auto_start_request = True, use_greenlets = True)
+            max_pool_size = 0, auto_start_request = True, use_greenlets = False)
         db = connection[options.db_name]
         response = db.command({"distinct": "symbols", "key": "S"})
         connection.end_request()
@@ -33,7 +31,7 @@ class StockHandler(RequestHandler):
     def find(self, symbol):
         options = self.application.options
         connection = MongoClient(options.db_host, options.db_port, 
-            max_pool_size = 0, auto_start_request = True, use_greenlets = True)
+            max_pool_size = 0, auto_start_request = True, use_greenlets = False)
         db = connection[options.db_name]
         response = db.symbols.find({'S': symbol})
         connection.end_request()
@@ -57,7 +55,7 @@ class StockHandler(RequestHandler):
         self.set_header("Content-Type", "application/json; charset=UTF-8")
         lst = [[self.get_argument("symbol")]]
         for t in response:
-            date = map(int, t["D"].split("-"))
+            date = [int(i) for i in  t["D"].split("-")]
             data = [int(datetime(date[0],date[1],date[2]).strftime('%s')) * 1000]
             data.extend([float(t[x]) for x in ["O", "H", "L", "C", "V"]])
             lst.append(data)  
