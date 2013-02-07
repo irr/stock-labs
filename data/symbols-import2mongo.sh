@@ -1,4 +1,7 @@
 #!/bin/bash
+# IMPORTANT: 
+# add header to symbols.csv
+# S,D,O,H,L,C,V
 # mongo <dbname> --eval "db.dropDatabase()"
 # db.symbols.dropIndexes()
 # db.symbols.ensureIndex({S:1})
