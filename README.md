@@ -6,7 +6,7 @@ stock-labs
 ```shell
 virtualenv --no-site-packages --distribute dev
 source $HOME/dev/bin/activate
-pip install -v tornado asyncmongo supervisor httpie greenlet
+pip install -v tornado pymongo asyncmongo motor supervisor httpie greenlet
 ```
 
 Copyright and License
