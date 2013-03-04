@@ -6,6 +6,8 @@ from logging import getLogger as log
 from tornado.template import Loader
 from tornado.web import asynchronous, RequestHandler, HTTPError
 
+import types
+
 class BaseHandler(RequestHandler):
     @property
     def db(self):
@@ -34,7 +36,7 @@ class StockHandler(BaseHandler):
         self.finish()
 
     def _on_data(self, response, error):
-        if error or not isinstance(response, ListType):
+        if error or not type(response) == types.ListType:
             raise HTTPError(500)
         self.set_header("Content-Type", "application/json; charset=UTF-8")
         lst = [[self.get_argument("symbol")]]
